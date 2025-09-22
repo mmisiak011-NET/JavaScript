@@ -77,6 +77,21 @@ console.log(0.1 + 0.2); // wynik 0.30000000000000004
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+// 👉 NaN – Not a Number "TO NIE JEST TYP DANYCH"
+
+let a = 0 / 0; //NaN
+let b = Math.sqrt(-1) //NaN
+
+//console.log(a)
+//console.log(b)
+//console.log(isNaN(b)); // true
+
+
+// ✅ Uwagi:
+// specjalna wartość w JS oznacza, że coś nie jest liczbą.
+// Istnieje wbudowana funkcja która sprawdzi czy coś jest NaN
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
 // 👉 boolean – wartości logiczne
 let isActive = true;
 let isAdmin = false;
@@ -153,8 +168,8 @@ obj.data = [1,2,3]          // pusty objekt można rozbudowć
 obj.data = { a: 12, b: 20}  // nadpisujemy wcześniej zrobionątabelicę
 //console.log(country);     // w node.js w console debug wyświetli nam okrojone informacje
 //console.log(obj);
-console.log(JSON.stringify(obj, null, 2)); // null - brak filtrowania, 2 oznacza wcięcie dla czytelosni
-console.log(JSON.stringify(country, null, 2));
+//console.log(JSON.stringify(obj, null, 2)); // null - brak filtrowania, 2 oznacza wcięcie dla czytelosni
+//console.log(JSON.stringify(country, null, 2));
 
 // ✅ Uwagi:
 // - Przechowuje dane w formie klucz-wartość
@@ -165,6 +180,9 @@ console.log(JSON.stringify(country, null, 2));
 
 // 👉 array – tablice (specjalny typ obiektu)
 let numbers = [1, 2, 3, 4];
+let mix = [1, 2, 'a', 'b', 1.2, 3.4, true, {a: 'obiekt'}, country];
+//console.log(mix[8]);
+//console.log(mix.length);
 
 // ✅ Uwagi:
 // - Tablica to lista elementów indeksowanych od 0
