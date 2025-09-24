@@ -12,26 +12,27 @@
     🔹var → stary sposób (unikać, ma inne zasady zasięgu)
 
 
-    🔹 1. var (stary sposób, unikać)
+    🔹 1. var (stary sposób, unikać) od samego początku JS
 
         Scope: działa w całej funkcji, a nie w bloku { }.
 
-        Można redeklarować tę samą zmienną w tym samym zakresie.
+        Można redeklarować tę samą zmienną w tym samym zakresie. var a = 2; var a = 2 nie bedzie błedu 
 
         Hoisting: deklaracja jest „przenoszona” na górę, ale wartość zostaje undefined do czasu przypisania.
 
 
 
-    🔹 2. let
+    🔹 2. let 
 
         Scope: działa tylko w bloku { }, w którym została zadeklarowana.
 
-        Nie można redeklarować tej samej zmiennej w tym samym zakresie.
+        Nie można redeklarować tej samej zmiennej w tym samym zakresie. lat a = 2; lat a = 2  bedzie błąd 
 
         Można zmieniać wartość.
 
         Hoisting: istnieje, ale w tzw. Temporal Dead Zone – nie możesz używać zmiennej przed deklaracją.
 
+        Wprowadzone w ES6
 
     🔹 3. const
 
@@ -40,6 +41,8 @@
         Nie można zmieniać przypisanej wartości (ale uwaga: w przypadku obiektów i tablic można modyfikować ich zawartość).
 
         Musi być zainicjalizowana od razu przy deklaracji.
+
+        Wprowadzone w ES6
 
 */
 
