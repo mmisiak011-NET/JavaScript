@@ -191,10 +191,18 @@ for (let i = 0; i < numbers.length; i++) {
   console.log(`Element ${i}: ${numbers[i]}`);
 }
 
+for (let i = 0, j = 10; i < j; i++, j--) { // For z operatorem ","
+  console.log(`i = ${i}, j = ${j}`);
+}
+
 //👉 for...of – iteracja po wartościach tablicy
 for (let num of numbers) {
   console.log("num =", num);
 }
+
+//🔹 Różnice JS vs C#
+//W C# też można używać przecinka w for, ale tylko w sekcji inicjalizacji i kroku.
+//W JS dokładnie tak samo ale przecinek to pełnoprawny operator i możesz go używać też poza pętlami:
 
 //👉 for...in – iteracja po kluczach obiektu
 // user[age] pobiera wartosć z właściwosci tak samo jak w tablicy
@@ -250,3 +258,27 @@ console.log(total);
 //👉 Różnice C# vs JS:
 // - W C# mamy LINQ (Select, Where, Aggregate), które działają podobnie do map, filter, reduce.
 // - W JS te metody są natywną częścią obiektów tablicowych.
+
+
+// =============================
+// Alokowanie w pamięci
+// =============================
+
+let a = 10;
+let b = a; // b ma osobne miejsce w pamięci tworzona tu jest kopia
+b++;
+console.log("a: "+ a);
+console.log("b: "+ b);
+
+let obj = {a: 10};
+let data = obj; // przepisujemy referencje wiec oba te obiekty wskazuja na to samo miejsce w pamięci
+
+obj.a++;
+console.log("obj: " + obj.a);
+console.log("data: " + data.a);
+
+//Sprawdzenie referencji
+if(obj == data){ // Sprawdzenie czy obj wskazuje na to samo miesce w pamięci co data
+
+}
+
