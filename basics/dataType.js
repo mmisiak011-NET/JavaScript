@@ -46,6 +46,8 @@
 
 */
 
+let num;        //zmienna zadeklarowana ale nie ma przypisanej wartosci *** undefined
+let num2 = 2;   //zmienna zadeklarowana oraz zdefiniowana, ma przypisana wartość
 
 
 // ==============================
@@ -204,6 +206,8 @@ function hello() {
 // - typeof przywitaj → "function"
 
 // -----------------------------------
+
+
 
 // ✅ Podsumowanie:
 // - Prymitywne: string, number, boolean, null, undefined, symbol, bigint
