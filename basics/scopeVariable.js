@@ -1,5 +1,7 @@
 
-
+// ==============================
+// 📌 Zmienne lokalne oraz globalne
+// ==============================
 
 let a = 12; // Zmienne globalna
 const txt = "Kasia"; // Zmienne globalna

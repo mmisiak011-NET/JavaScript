@@ -2,6 +2,11 @@
 // Funkcje
 // =============================
 
+// 📌 Jeżeli w funkcji nic nie zwrócimy to domyślnei bedzie to zawsze undefined
+// 📌 Jeżeli w funkcji zwrócimy tylko return; to w wyniku funkcji bedzie zawsze undefined
+// 📌 Jeżeli w funkcji zwrócimy return null; to w wyniku funkcji bedzie null;
+
+
 //👉 Deklaracja funkcji może zawierac parametry
 function greet(name) {
     console.log(this);
@@ -27,7 +32,7 @@ function add(a, b) {
 let sum = add(5, 3);
 console.log(sum);
 
-//👉 Funkcja anonimowa przypisana do zmiennej
+//👉 Funkcja anonimowa przypisana do zmiennej lub stałej
 const multiply = function (x, y) {
   return x * y;
 };

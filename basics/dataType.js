@@ -184,6 +184,8 @@ obj.data = { a: 12, b: 20}  // nadpisujemy wcześniej zrobionątabelicę
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 👉 array – tablice (specjalny typ obiektu)
+// jest to typ referencyjne, wiec w funkcjach przekazywana jest 
+// referencja nie kopia wartości.
 let numbers = [1, 2, 3, 4];
 let mix = [1, 2, 'a', 'b', 1.2, 3.4, true, {a: 'obiekt'}, country];
 //console.log(mix[8]);
