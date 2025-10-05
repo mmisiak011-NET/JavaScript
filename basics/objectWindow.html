@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌐 Window Object — pełna demonstracja</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    #log {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      height: 400px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    .event {
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .time {
+      color: #777;
+      font-size: 0.85em;
+    }
+    button {
+      background: #0078ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      margin: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #005ad1;
+    }
+    #clearBtn {
+      background: #e53935;
+    }
+    #clearBtn:hover {
+      background: #c62828;
+    }
+    .section {
+      margin-top: 30px;
+    }
+  </style>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f6f8fa;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    h2 {
+      border-bottom: 2px solid #0078ff;
+      padding-bottom: 4px;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #0078ff;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    a {
+      color: #0078ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>📘 JavaScript — Najczęściej używane zdarzenia (Events)</h1>
+  <p style="text-align:center;">
+    Źródła i dokumentacja:
+    <a href="https://developer.mozilla.org/en-US/docs/Web/Events" target="_blank">MDN Web Docs: Web Events</a> •
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window#events" target="_blank">Window events</a> •
+    <a href="https://www.w3schools.com/jsref/dom_obj_event.asp" target="_blank">W3Schools event list</a>
+  </p>
+
+  <h2>🪟 Zdarzenia obiektu <code>window</code></h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>load</code></td><td>Wszystkie zasoby (HTML, CSS, obrazy) zostały załadowane.</td></tr>
+    <tr><td><code>DOMContentLoaded</code></td><td>DOM gotowy, ale niekoniecznie obrazy i CSS.</td></tr>
+    <tr><td><code>resize</code></td><td>Rozmiar okna został zmieniony.</td></tr>
+    <tr><td><code>scroll</code></td><td>Użytkownik przewija stronę.</td></tr>
+    <tr><td><code>focus / blur</code></td><td>Okno lub element uzyskał / stracił fokus.</td></tr>
+    <tr><td><code>online / offline</code></td><td>Połączenie z internetem przywrócone / utracone.</td></tr>
+    <tr><td><code>beforeunload</code></td><td>Użytkownik próbuje opuścić stronę.</td></tr>
+    <tr><td><code>hashchange</code></td><td>Fragment URL po znaku <code>#</code> został zmieniony.</td></tr>
+    <tr><td><code>popstate</code></td><td>Użytkownik porusza się po historii (przycisk wstecz/dalej).</td></tr>
+    <tr><td><code>storage</code></td><td>Zmieniono dane w <code>localStorage</code> (w innej karcie).</td></tr>
+    <tr><td><code>message</code></td><td>Otrzymano wiadomość z innego okna/ramki (postMessage API).</td></tr>
+    <tr><td><code>error</code></td><td>Błąd w skrypcie lub zasobie.</td></tr>
+  </table>
+
+  <h2>🖱️ Zdarzenia myszy</h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>click</code></td><td>Kliknięcie myszą.</td></tr>
+    <tr><td><code>dblclick</code></td><td>Podwójne kliknięcie.</td></tr>
+    <tr><td><code>mousedown / mouseup</code></td><td>Naciśnięcie / zwolnienie przycisku myszy.</td></tr>
+    <tr><td><code>mousemove</code></td><td>Ruch kursora myszy.</td></tr>
+    <tr><td><code>mouseenter / mouseleave</code></td><td>Kursor wchodzi / opuszcza element.</td></tr>
+    <tr><td><code>contextmenu</code></td><td>Kliknięcie prawym przyciskiem (menu kontekstowe).</td></tr>
+  </table>
+
+  <h2>⌨️ Zdarzenia klawiatury</h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>keydown</code></td><td>Naciśnięcie klawisza (trzymany — powtarzany).</td></tr>
+    <tr><td><code>keyup</code></td><td>Zwolnienie klawisza.</td></tr>
+    <tr><td><code>keypress</code></td><td>(Stare) Wciśnięcie klawisza znakowego.</td></tr>
+  </table>
+
+  <h2>🧾 Formularze i pola</h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>input</code></td><td>Wartość pola zmieniona (w czasie pisania).</td></tr>
+    <tr><td><code>change</code></td><td>Wartość zmieniona i pole opuszczone.</td></tr>
+    <tr><td><code>focus / blur</code></td><td>Pole uzyskało / straciło fokus.</td></tr>
+    <tr><td><code>submit</code></td><td>Wysłanie formularza.</td></tr>
+    <tr><td><code>reset</code></td><td>Reset formularza.</td></tr>
+  </table>
+
+  <h2>🎞️ Multimedia</h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>play / pause</code></td><td>Odtwarzanie lub pauza wideo/audio.</td></tr>
+    <tr><td><code>ended</code></td><td>Media zakończone.</td></tr>
+    <tr><td><code>volumechange</code></td><td>Zmieniono głośność.</td></tr>
+    <tr><td><code>timeupdate</code></td><td>Aktualizacja bieżącego czasu odtwarzania.</td></tr>
+  </table>
+
+  <h2>🧱 Inne przydatne</h2>
+  <table>
+    <tr><th>Nazwa</th><th>Opis</th></tr>
+    <tr><td><code>drag / drop</code></td><td>Przeciąganie i upuszczanie elementów.</td></tr>
+    <tr><td><code>copy / paste / cut</code></td><td>Operacje schowka.</td></tr>
+    <tr><td><code>visibilitychange</code></td><td>Zakładka aktywna lub ukryta (np. zmiana kart).</td></tr>
+  </table>
+
+  <footer>
+    📚 Źródło: <a href="https://developer.mozilla.org/en-US/docs/Web/Events" target="_blank">MDN Web Docs – Web Events</a><br>
+  </footer>
+
+  <h1>🪟 Obiekt <code>window</code> — właściwości, metody i zdarzenia</h1>
+  <p>
+    Ten plik demonstruje działanie globalnego obiektu <code>window</code> w przeglądarce.<br>
+    Otwórz konsolę (F12 → Console), by zobaczyć logi, lub obserwuj okno poniżej.
+  </p>
+
+  <div class="section">
+    <h2>🔹 Przykładowe przyciski — metody i właściwości</h2>
+    <button onclick="showWindowInfo()">📏 Informacje o oknie</button>
+    <button onclick="showLocationInfo()">🌍 Informacje o adresie (location)</button>
+    <button onclick="showNavigatorInfo()">🧭 Informacje o przeglądarce (navigator)</button>
+    <button onclick="scrollDown()">⬇️ Przewiń w dół</button>
+    <button onclick="openNewTab()">🪟 Otwórz nową kartę</button>
+    <button onclick="showAlert()">⚠️ alert()</button>
+    <button onclick="showPrompt()">💬 prompt()</button>
+    <button onclick="showConfirm()">❓ confirm()</button>
+    <button onclick="triggerError()">💥 Wywołaj błąd</button>
+    <button id="clearBtn" onclick="clearLogs()">🧹 Wyczyść logi</button>
+  </div>
+
+  <div class="section">
+    <h2>🔹 Zdarzenia <code>window</code></h2>
+    <p>Spróbuj przewinąć, zmienić rozmiar okna, przełączyć zakładki, odłączyć internet itp.</p>
+    <div id="log"></div>
+  </div>
+
+  <script>
+    // =====================================================
+    // 🪟 FUNKCJE POMOCNICZE DO LOGOWANIA
+    // =====================================================
+    const logContainer = document.getElementById("log");
+
+    function logEvent(message) {
+      const div = document.createElement("div");
+      div.className = "event";
+      const now = new Date().toLocaleTimeString();
+      div.innerHTML = `<span class="time">[${now}]</span> ${message}`;
+      logContainer.prepend(div);
+      console.log(message);
+    }
+
+    function clearLogs() {
+      logContainer.innerHTML = "";
+      console.clear();
+      logEvent("🧹 Logi wyczyszczone");
+    }
+
+    // =====================================================
+    // 🔹 PRZYKŁADOWE WŁAŚCIWOŚCI I METODY WINDOW
+    // =====================================================
+
+    function showWindowInfo() {
+      logEvent(`📏 Rozmiar okna: ${window.innerWidth} x ${window.innerHeight}`);
+      logEvent(`🧭 Pozycja okna: (${window.screenX}, ${window.screenY})`);
+      logEvent(`🪟 Liczba otwartych ramek: ${window.length}`);
+      logEvent(`🌍 globalThis === window ? ${globalThis === window}`);
+    }
+
+    function showLocationInfo() {
+      logEvent(`🌍 URL: ${window.location.href}`);
+      logEvent(`🔗 Host: ${window.location.host}`);
+      logEvent(`📄 Ścieżka: ${window.location.pathname}`);
+      logEvent(`#️⃣ Hash: ${window.location.hash}`);
+    }
+
+    function showNavigatorInfo() {
+      logEvent(`💻 Przeglądarka: ${window.navigator.userAgent}`);
+      logEvent(`🌐 Online: ${window.navigator.onLine}`);
+      logEvent(`🈯 Język: ${window.navigator.language}`);
+    }
+
+    function scrollDown() {
+      window.scrollBy(0, 200);
+      logEvent("⬇️ Przewinięto w dół o 200px");
+    }
+
+    function openNewTab() {
+      window.open("https://example.com", "_blank");
+      logEvent("🪟 Otwarto nową kartę z example.com");
+    }
+
+    function showAlert() {
+      window.alert("To jest alert!");
+      logEvent("⚠️ Użyto window.alert()");
+    }
+
+    function showPrompt() {
+      const name = window.prompt("Jak masz na imię?");
+      logEvent(`💬 Wynik prompt(): ${name}`);
+    }
+
+    function showConfirm() {
+      const answer = window.confirm("Czy chcesz kontynuować?");
+      logEvent(`❓ Wynik confirm(): ${answer}`);
+    }
+
+    function triggerError() {
+      notExistingFunction(); // sztuczny błąd
+    }
+
+    // =====================================================
+    // 🔹 OBSŁUGA ZDARZEŃ WINDOW
+    // =====================================================
+    window.addEventListener("DOMContentLoaded", () => logEvent("✅ DOMContentLoaded — struktura strony gotowa!"));
+    window.addEventListener("load", () => logEvent("✅ load — wszystko (HTML, CSS, obrazy) załadowane!"));
+    
+    window.addEventListener("load", () => {
+      console.log("Pierwsza funkcja — przygotuj dane");
+    }); //F12
+
+    window.addEventListener("load", () => {
+      console.log("Druga funkcja — ustaw interfejs");
+    });//F12
+
+    window.addEventListener("load", () => {
+      console.log("Trzecia funkcja — uruchom animacje");
+    });//F12
+    
+    window.addEventListener("resize", () => logEvent(`📏 Zmieniono rozmiar: ${window.innerWidth}x${window.innerHeight}`));
+    window.addEventListener("scroll", () => logEvent("🧭 Scroll — przewijasz stronę..."));
+    window.addEventListener("focus", () => logEvent("🔵 Okno aktywne (focus)"));
+    window.addEventListener("blur", () => logEvent("⚪ Okno nieaktywne (blur)"));
+    window.addEventListener("online", () => logEvent("🌐 Połączenie z internetem przywrócone ✅"));
+    window.addEventListener("offline", () => logEvent("🚫 Brak internetu ❌"));
+
+    window.addEventListener("beforeunload", (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      logEvent("⚠️ beforeunload — próba opuszczenia strony");
+    });
+
+    window.addEventListener("hashchange", () => logEvent(`🔗 Zmieniono hash: ${window.location.hash}`));
+    window.addEventListener("popstate", (event) => logEvent(`📜 Historia zmieniona: ${JSON.stringify(event.state)}`));
+    window.addEventListener("storage", (event) => logEvent(`💾 localStorage: ${event.key} = ${event.newValue}`));
+    window.addEventListener("message", (event) => logEvent(`💬 Otrzymano wiadomość: ${event.data}`));
+    window.addEventListener("error", (event) => logEvent(`❌ Błąd w skrypcie: ${event.message}`));
+
+    // =====================================================
+    // 🔹 TESTOWE AUTOMATYCZNE AKCJE
+    // =====================================================
+    setTimeout(() => window.postMessage("Hello z postMessage()!", "*"), 2000);
+    setTimeout(() => (location.hash = "#sekcja1"), 3000);
+    setTimeout(() => localStorage.setItem("demoKey", "12345"), 4000);
+  </script>
+
+</body>
+</html>
