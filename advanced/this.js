@@ -200,8 +200,6 @@ const p = new Person("Henry");
 p.sayNameArrow();
 
 p.sayName();     
-// 👉 metoda klasy to zwykła funkcja → this = instancja
-// Wynik: "Henry"
 
 p.sayNameLater();
 // 👉 9.1: zwykła funkcja w setTimeout → this = global → undefined

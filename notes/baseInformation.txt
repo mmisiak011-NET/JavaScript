@@ -2,5 +2,7 @@
 
 1.  Pamieć JS jest zarządzana przez GC (garbage collector)
     Dlatego JS nie jest najabrdziej wydajnym językiem programowania.
+    
 
-2.  
+2.  Podczas uruchomienia aplkikacji w przeglądarce cała aplikacja 
+    JS w kontekście obiektu Window
