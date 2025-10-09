@@ -7,9 +7,14 @@
 /*
     1. Deklaracja zmiennych
 
-    🔹let → zmienna, którą można zmieniać
-    🔹const → stała (nie można ponownie przypisać wartości)
-    🔹var → stary sposób (unikać, ma inne zasady zasięgu)
+    🔹  hoisting - Deklaracja zmiennej zawsze idzie na sama górę wiec zawsze mamy do niej dostęp ale przypisanie wartości do zmiennej pozostaje bez zmian
+        (zjawisko hoistingu)
+
+    🔹  let → zmienna, którą można zmieniać (występuje hoisting ale nie ustawia undefinet dlatego mamy błąd)
+    🔹  const → stała (nie można ponownie przypisać wartości) (występuje hoisting ale nie ustawia undefinet dlatego mamy błąd)
+    🔹  var → stary sposób (unikać, ma inne zasady zasięgu) (występuje hoisting i przypisuje undefined)
+        
+
 
 
     🔹 1. var (stary sposób, unikać) od samego początku JS
@@ -45,6 +50,26 @@
         Wprowadzone w ES6
 
 */
+
+
+// ==============================
+// 📌 Temporal Dead Zone (TDZ)?
+// ==============================
+/*
+
+    TDZ to czasowy (temporalny) „obszar”, w którym zmienna jest już zadeklarowana w kodzie,
+    ale nie jest jeszcze zainicjalizowana przez interpreter JS.
+
+*/
+
+function test() {
+  console.log(value); // ❌ ReferenceError TDZ - miejsce gdzie używamy zmiennej przed jej przypisaniem
+  const value = "Hello TDZ";
+}
+test();
+
+
+
 
 let num;        //zmienna zadeklarowana ale nie ma przypisanej wartosci *** undefined
 let num2 = 2;   //zmienna zadeklarowana oraz zdefiniowana, ma przypisana wartość
