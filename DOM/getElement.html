@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM – metody i selektory</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #005f99;
+    }
+    code {
+      background: #f2f2f2;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    pre {
+      background: #f7f7f7;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .example {
+      background: #eef9ff;
+      border: 1px solid #cce5ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      background: #0078d7;
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    ul {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 DOM — metody pobierania elementów</h1>
+
+  <p>
+    JavaScript pozwala pobierać elementy z dokumentu HTML za pomocą różnych metod.
+    Najpopularniejsze z nich to:
+  </p>
+
+  <ul>
+    <li><code>document.getElementById("id")</code> — pobiera element po <b>ID</b></li>
+    <li><code>document.getElementsByClassName("class")</code> — zwraca kolekcję elementów o podanej <b>klasie</b></li>
+    <li><code>document.getElementsByTagName("tag")</code> — zwraca wszystkie elementy danego typu (np. <code>div</code>, <code>p</code>)</li>
+    <li><code>document.querySelector("selector")</code> — zwraca <b>pierwszy</b> element pasujący do selektora CSS</li>
+    <li><code>document.querySelectorAll("selector")</code> — zwraca <b>wszystkie</b> dopasowane elementy (NodeList)</li>
+  </ul>
+
+  <hr>
+
+  <h2>🎯 Zasady używania selektorów w <code>querySelector()</code></h2>
+
+  <p>Selektory działają dokładnie tak, jak w CSS. Oto podstawowe zasady:</p>
+
+  <table border="1" cellpadding="6" cellspacing="0">
+    <tr>
+      <th>Selektor</th>
+      <th>Opis</th>
+      <th>Przykład</th>
+    </tr>
+    <tr>
+      <td><code>"#id"</code></td>
+      <td>Wybiera element po jego ID</td>
+      <td><code>document.querySelector("#header")</code></td>
+    </tr>
+    <tr>
+      <td><code>".class"</code></td>
+      <td>Wybiera element po klasie CSS</td>
+      <td><code>document.querySelector(".message")</code></td>
+    </tr>
+    <tr>
+      <td><code>"tag"</code></td>
+      <td>Wybiera element po nazwie znacznika</td>
+      <td><code>document.querySelector("p")</code></td>
+    </tr>
+    <tr>
+      <td><code>"div.message"</code></td>
+      <td>Wybiera <code>&lt;div&gt;</code> z klasą <code>message</code></td>
+      <td><code>document.querySelector("div.message")</code></td>
+    </tr>
+    <tr>
+      <td><code>"section p"</code></td>
+      <td>Wybiera elementy <code>&lt;p&gt;</code> znajdujące się wewnątrz <code>&lt;section&gt;</code></td>
+      <td><code>document.querySelector("section p")</code></td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <h2>🧠 Przykład działania selektorów</h2>
+
+  <div class="example">
+    <h3 id="mainTitle">Tytuł strony</h3>
+    <p class="message">To jest wiadomość 1</p>
+    <p class="message">To jest wiadomość 2</p>
+    <section>
+      <p>Paragraf wewnątrz sekcji</p>
+    </section>
+
+    <button id="btnId">getElementById</button>
+    <button id="btnClass">getElementsByClassName</button>
+    <button id="btnTag">getElementsByTagName</button>
+    <button id="btnQuery">querySelector</button>
+    <button id="btnQueryAll">querySelectorAll</button>
+  </div>
+
+  <script>
+    // Pobranie referencji do przycisków
+    const btnId = document.getElementById("btnId");
+    const btnClass = document.getElementById("btnClass");
+    const btnTag = document.getElementById("btnTag");
+    const btnQuery = document.getElementById("btnQuery");
+    const btnQueryAll = document.getElementById("btnQueryAll");
+
+    // === getElementById ===
+    btnId.addEventListener("click", () => {
+      const title = document.getElementById("mainTitle");
+      title.style.color = "red";
+      console.log("getElementById:", title.textContent);
+    });
+
+    // === getElementsByClassName ===
+    btnClass.addEventListener("click", () => {
+      const messages = document.getElementsByClassName("message");
+      console.log("getElementsByClassName:", messages);
+      messages[0].style.color = "blue";
+    });
+
+    // === getElementsByTagName ===
+    btnTag.addEventListener("click", () => {
+      const paragraphs = document.getElementsByTagName("p");
+      console.log("getElementsByTagName:", paragraphs);
+      paragraphs[1].style.fontWeight = "bold";
+    });
+
+    // === querySelector ===
+    btnQuery.addEventListener("click", () => {
+      const firstMessage = document.querySelector(".message");
+      console.log("querySelector:", firstMessage.textContent);
+      firstMessage.style.backgroundColor = "#ffe6cc";
+    });
+
+    // === querySelectorAll ===
+    btnQueryAll.addEventListener("click", () => {
+      const allMessages = document.querySelectorAll(".message");
+      console.log("querySelectorAll:", allMessages);
+      allMessages.forEach(m => (m.style.backgroundColor = "#ccffcc"));
+    });
+  </script>
+
+  <hr>
+  <h2>📊 Podsumowanie</h2>
+  <ul>
+    <li><b>getElementById()</b> — szybki dostęp do pojedynczego elementu</li>
+    <li><b>getElementsByClassName()</b> / <b>getElementsByTagName()</b> — zwracają „żywe” kolekcje</li>
+    <li><b>querySelector()</b> — najbardziej uniwersalna metoda (CSS-selektory)</li>
+    <li><b>querySelectorAll()</b> — zwraca wszystkie dopasowania jako <code>NodeList</code></li>
+  </ul>
+</body>
+</html>

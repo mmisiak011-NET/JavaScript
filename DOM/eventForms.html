@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formularze i zdarzenia DOM w JavaScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+      background: #f8f8f8;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea, button {
+      margin-top: 5px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .log {
+      margin-top: 20px;
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      height: 250px;
+      overflow-y: auto;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Formularze i zdarzenia DOM w JavaScript</h1>
+  <p>Ten przykład pokazuje jak reagować na różne zdarzenia pól formularzy: <code>input</code>, <code>change</code>, <code>focus</code>, <code>blur</code>, <code>submit</code> i inne.</p>
+
+  <form id="userForm">
+    <label>
+      Imię:
+      <input type="text" id="name" placeholder="Wpisz imię">
+    </label>
+
+    <label>
+      Wiek:
+      <input type="number" id="age" min="1" max="120" placeholder="Podaj wiek">
+    </label>
+
+    <label>
+      Miasto:
+      <select id="city">
+        <option value="">-- wybierz --</option>
+        <option value="Warszawa">Warszawa</option>
+        <option value="Kraków">Kraków</option>
+        <option value="Gdańsk">Gdańsk</option>
+      </select>
+    </label>
+
+    <label>
+      Płeć:
+      <div class="radio-group">
+        <label><input type="radio" name="gender" value="Mężczyzna"> Mężczyzna</label>
+        <label><input type="radio" name="gender" value="Kobieta"> Kobieta</label>
+        <label><input type="radio" name="gender" value="Inna"> Inna</label>
+      </div>
+    </label>
+
+    <label>
+      Opis (textarea):
+      <textarea id="description" rows="3" placeholder="Napisz coś o sobie..."></textarea>
+    </label>
+
+    <label>
+      <input type="checkbox" id="agree"> Akceptuję regulamin
+    </label>
+
+    <button type="submit">📤 Wyślij</button>
+    <button type="reset">🧹 Reset</button>
+  </form>
+
+  <h2>🪵 Log zdarzeń:</h2>
+  <div id="log" class="log"></div>
+
+  <script>
+    // ===========================================================
+    // 📘 FORMULARZE I ELEMENTY INPUT w DOM + OBSŁUGA ZDARZEŃ
+    // ===========================================================
+
+    const form = document.querySelector("#userForm");
+    const nameInput = document.querySelector("#name");
+    const ageInput = document.querySelector("#age");
+    const selectInput = document.querySelector("#city");
+    const description = document.querySelector("#description");
+    const checkbox = document.querySelector("#agree");
+    const radioButtons = document.querySelectorAll("input[name='gender']");
+    const logArea = document.querySelector("#log");
+
+    // Pomocnicza funkcja logująca
+    function log(msg) {
+      const time = new Date().toLocaleTimeString();
+      logArea.innerHTML += `[${time}] ${msg}<br>`;
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    // ===========================================================
+    // 🔤 Pola tekstowe (input, change, focus, blur)
+    // ===========================================================
+    nameInput.addEventListener("input", e => {
+      log(`✏️ input: wartość = "${e.target.value}"`);
+    });
+
+    nameInput.addEventListener("change", e => {
+      log(`🔄 change: ostateczna wartość = "${e.target.value}"`);
+    });
+
+    nameInput.addEventListener("focus", e => {
+      log(`🎯 focus: aktywowano pole ${e.target.id}`);
+    });
+
+    nameInput.addEventListener("blur", e => {
+      log(`🚫 blur: opuszczono pole ${e.target.id}`);
+    });
+
+    // ===========================================================
+    // 🔢 Pole liczby
+    // ===========================================================
+    ageInput.addEventListener("input", e => {
+      log(`🔢 Wiek: ${e.target.value}`);
+    });
+
+    // ===========================================================
+    // 🏙️ Select (lista rozwijana)
+    // ===========================================================
+    selectInput.addEventListener("change", e => {
+      log(`🏙️ Wybrano miasto: ${e.target.value}`);
+    });
+
+    // ===========================================================
+    // 👩 Radio buttons
+    // ===========================================================
+    radioButtons.forEach(radio => {
+      radio.addEventListener("change", e => {
+        log(`⚧ Wybrano płeć: ${e.target.value}`);
+      });
+    });
+
+    // ===========================================================
+    // 📜 Textarea
+    // ===========================================================
+    description.addEventListener("input", e => {
+      log(`📝 Zmiana w opisie: "${e.target.value}"`);
+    });
+
+    // ===========================================================
+    // ☑️ Checkbox
+    // ===========================================================
+    checkbox.addEventListener("change", e => {
+      log(`☑️ Zgoda: ${e.target.checked ? "zaznaczona" : "odznaczona"}`);
+    });
+
+    // ===========================================================
+    // 📤 Formularz (submit, reset)
+    // ===========================================================
+    form.addEventListener("submit", e => {
+      e.preventDefault(); // blokuje wysłanie formularza
+      const selectedGender = [...radioButtons].find(r => r.checked)?.value || "nie podano";
+      log("📨 Formularz został wysłany!");
+      log(`👤 Imię: ${nameInput.value}, 🧓 Wiek: ${ageInput.value}, 🌆 Miasto: ${selectInput.value}, ⚧ Płeć: ${selectedGender}, ✅ Zgoda: ${checkbox.checked}`);
+      log(`🗒️ Opis: ${description.value}`);
+    });
+
+    form.addEventListener("reset", () => {
+      log("🧹 Formularz został zresetowany");
+    });
+
+    // ===========================================================
+    // ⏱️ Dodatkowy przykład: blokowanie i odblokowanie pola
+    // ===========================================================
+    setTimeout(() => {
+      nameInput.disabled = true;
+      log("⛔ Pole 'Imię' zostało tymczasowo zablokowane");
+      setTimeout(() => {
+        nameInput.disabled = false;
+        log("✅ Pole 'Imię' ponownie aktywne");
+      }, 3000);
+    }, 5000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>🖱️ Zdarzenia myszy w DOM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    h1 {
+      color: #333;
+    }
+    #mouseBox {
+      width: 300px;
+      height: 200px;
+      background-color: #4caf50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      user-select: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #log {
+      height: 300px;
+      overflow-y: auto;
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🖱️ Zdarzenia myszy w DOM</h1>
+  <p>Najeźdź, klikaj lub przewijaj myszką po kwadracie poniżej:</p>
+
+  <div id="mouseBox">🖱️ Interaktywny kwadrat</div>
+
+  <div id="log"></div>
+
+  <script>
+    const mouseBox = document.getElementById("mouseBox");
+    const logArea = document.getElementById("log");
+
+    function addLog(msg) {
+      const time = new Date().toLocaleTimeString();
+      logArea.innerHTML += `[${time}] ${msg}<br>`;
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    // ==============================
+    // ZDARZENIA MYSZY
+    // ==============================
+
+    /*
+    ============================================================
+    🐭 Obiekt `event` dla zdarzeń myszy — pełne omówienie
+    ============================================================
+
+    Każde zdarzenie myszy (np. click, mouseover, wheel itp.)
+    automatycznie przekazuje do funkcji obsługującej tzw. OBIEKT ZDARZENIA (event object).
+    Ten obiekt zawiera szczegółowe informacje o tym, co się stało.
+
+    ------------------------------------------------------------
+    📦 Najczęściej używane właściwości obiektu `event`:
+    ------------------------------------------------------------
+
+    - event.type
+        👉 Zwraca typ zdarzenia, np. "click", "dblclick", "mousedown", "mousemove"
+        🔹 Przydaje się, gdy jedna funkcja obsługuje kilka różnych typów eventów.
+
+    - event.target
+        👉 Element, na którym zdarzenie zostało wywołane (np. <button>, <div>).
+        🔹 Uwaga: może być elementem potomnym w stosunku do elementu nasłuchującego.
+
+    - event.currentTarget
+        👉 Element, do którego faktycznie przypisano listener.
+        🔹 Różni się od target, jeśli zdarzenie bąbelkuje z wnętrza innego elementu.
+
+    - event.clientX / event.clientY
+        👉 Pozycja kursora względem lewego górnego rogu okna przeglądarki (viewportu).
+        🔹 Użyteczne np. do wyświetlania tooltipów lub tworzenia customowych menu.
+
+    - event.pageX / event.pageY
+        👉 Pozycja kursora względem całej strony (uwzględnia przewinięcie scrolla).
+
+    - event.screenX / event.screenY
+        👉 Pozycja kursora względem ekranu użytkownika (monitor, nie okno przeglądarki).
+
+    - event.button
+        👉 Który przycisk myszy został naciśnięty:
+            0 → lewy przycisk
+            1 → środkowy (scroll)
+            2 → prawy przycisk
+        🔹 Wartość dostępna w eventach: mousedown, mouseup, click, contextmenu.
+
+    - event.altKey / event.ctrlKey / event.shiftKey / event.metaKey
+        👉 Informują, czy podczas zdarzenia były wciśnięte klawisze modyfikujące.
+            (Alt, Ctrl, Shift lub Meta/Command)
+        🔹 Dzięki temu możesz tworzyć skróty np. Ctrl+Click, Alt+Drag itp.
+
+    - event.relatedTarget
+        👉 Dla zdarzeń `mouseover` i `mouseout` określa element,
+            z którego kursor przyszedł lub na który wyszedł.
+        🔹 Przydatne przy kontrolowaniu złożonych efektów hovera.
+
+
+    ------------------------------------------------------------
+    💡 Podsumowanie najważniejszych zdarzeń myszy:
+    ------------------------------------------------------------
+
+    | Zdarzenie       | Opis i moment wywołania                             | Bąbelkuje |
+    |------------------|------------------------------------------------------|------------|
+    | click            | Po mousedown + mouseup na tym samym elemencie       | ✅ tak     |
+    | dblclick         | Podwójne kliknięcie                                 | ✅ tak     |
+    | mousedown        | Wciśnięcie przycisku myszy                          | ✅ tak     |
+    | mouseup          | Zwolnienie przycisku myszy                          | ✅ tak     |
+    | mousemove        | Ruch kursora nad elementem                          | ✅ tak     |
+    | mouseover        | Kursor wszedł na element (lub jego potomka)         | ✅ tak     |
+    | mouseout         | Kursor wyszedł z elementu (lub jego potomka)        | ✅ tak     |
+    | mouseenter       | Kursor wszedł bezpośrednio na element               | ❌ nie     |
+    | mouseleave       | Kursor wyszedł bezpośrednio z elementu              | ❌ nie     |
+    | wheel            | Przewinięcie kółkiem myszy                          | ✅ tak     |
+    | contextmenu      | Kliknięcie prawym przyciskiem myszy (menu kontekstowe) | ✅ tak  |
+
+
+    ------------------------------------------------------------
+    🔍 Dodatkowe wskazówki:
+    ------------------------------------------------------------
+
+    - Zdarzenia `mouseover` i `mouseout` mogą występować bardzo często, 
+        np. przy poruszaniu kursorem między elementami potomnymi.
+        Jeśli zależy Ci tylko na wejściu / wyjściu na główny element,
+        użyj `mouseenter` i `mouseleave`.
+
+    - `mousedown` / `mouseup` występują szybciej niż `click` i często
+        są używane w grach, rysowaniu (canvas) lub interfejsach drag-and-drop.
+
+    - `wheel` pozwala na niestandardowe sterowanie przewijaniem strony lub elementu.
+
+    - `contextmenu` można wykorzystać do tworzenia własnych menu kontekstowych.
+        Wystarczy dodać:
+        e.preventDefault();
+        aby zablokować domyślne menu przeglądarki.
+
+    ------------------------------------------------------------
+    🧠 Przykład:
+    ------------------------------------------------------------
+    const box = document.getElementById("mouseBox");
+
+    box.addEventListener("click", e => {
+        console.log(`Typ: ${e.type}`);
+        console.log(`Kliknięto: ${e.button === 0 ? "lewy" : e.button === 2 ? "prawy" : "środkowy"} przycisk`);
+        console.log(`Pozycja kursora: (${e.clientX}, ${e.clientY})`);
+        console.log(`Element kliknięty: ${e.target.tagName}`);
+    });
+    */
+
+
+
+    mouseBox.addEventListener("click", e => {
+      addLog(`🖱 click — element: ${e.target.tagName}, pozycja: (${e.clientX}, ${e.clientY}), przycisk: ${e.button}`);
+    });
+
+    mouseBox.addEventListener("dblclick", e => {
+      addLog(`🖱 dblclick — element: ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mousedown", e => {
+      addLog(`⬇️ mousedown — element: ${e.target.tagName}, przycisk: ${e.button}`);
+    });
+
+    mouseBox.addEventListener("mouseup", e => {
+      addLog(`⬆️ mouseup — element: ${e.target.tagName}, przycisk: ${e.button}`);
+    });
+
+    mouseBox.addEventListener("mousemove", e => {
+      addLog(`🧭 mousemove — pozycja: (${e.clientX}, ${e.clientY})`);
+    });
+
+    mouseBox.addEventListener("mouseover", e => {
+      addLog(`➡️ mouseover — kursor wszedł na element ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mouseout", e => {
+      addLog(`⬅️ mouseout — kursor opuścił element ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mouseenter", e => {
+      addLog(`➡️ mouseenter — kursor wszedł bezpośrednio na element ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mouseleave", e => {
+      addLog(`⬅️ mouseleave — kursor wyszedł bezpośrednio z elementu ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("wheel", e => {
+      addLog(`🌀 wheel — deltaY: ${e.deltaY}`);
+    });
+
+    mouseBox.addEventListener("contextmenu", e => {
+      e.preventDefault(); // blokuje menu kontekstowe
+      addLog(`📋 contextmenu — kliknięto prawym przyciskiem`);
+    });
+
+    // ==============================
+    // Dodatkowe: klawisze modyfikujące
+    // ==============================
+    mouseBox.addEventListener("click", e => {
+      const mods = [];
+      if(e.shiftKey) mods.push("Shift");
+      if(e.ctrlKey) mods.push("Ctrl");
+      if(e.altKey) mods.push("Alt");
+      if(e.metaKey) mods.push("Meta");
+      if(mods.length) addLog(`   🔹 Modyfikatory wciśnięte: ${mods.join(", ")}`);
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+

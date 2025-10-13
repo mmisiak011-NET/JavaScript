@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM — Zdarzenia i obiekt event</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.5; }
+    h2 { margin-top: 30px; color: #007bff; }
+    .event-box { padding: 10px; border: 2px solid #ccc; margin: 10px 0; border-radius: 6px; }
+    .click-box { background: #f9f9f9; cursor: pointer; }
+    .keyboard-box { background: #f1f8e9; }
+    .form-box { background: #fff3e0; }
+    .log { background: #000; color: #0f0; padding: 8px; margin-top: 10px; height: 200px; overflow-y: auto; font-family: monospace; }
+    button { padding: 6px 12px; margin: 5px; border-radius: 6px; cursor: pointer; }
+    code { background: #f2f2f2; padding: 2px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>📘 Zdarzenia DOM w JavaScript + obiekt <code>event</code></h1>
+
+  <p>
+    Każda funkcja przekazana do <code>addEventListener()</code> automatycznie otrzymuje obiekt 
+    zdarzenia (ang. <b>Event Object</b>) — zazwyczaj nazywany <code>e</code> lub <code>event</code>.
+  </p>
+
+  <button id="clearLog">🧹 Wyczyść log</button>
+  <div id="log" class="log"></div>
+
+  <!-- ====================== -->
+  <!-- ZDARZENIA MYSZY -->
+  <!-- ====================== -->
+  <h2>🐭 Zdarzenia myszy</h2>
+  <div id="mouseBox" class="event-box click-box">
+    Kliknij, najedź lub opuść ten obszar.
+  </div>
+
+  <!-- ====================== -->
+  <!-- ZDARZENIA KLAWIATURY -->
+  <!-- ====================== -->
+  <h2>⌨️ Zdarzenia klawiatury</h2>
+  <input type="text" id="keyboardInput" placeholder="Naciśnij coś..." class="event-box keyboard-box">
+
+  <!-- ====================== -->
+  <!-- ZDARZENIA FORMULARZY -->
+  <!-- ====================== -->
+  <h2>📋 Zdarzenia formularzy</h2>
+  <form id="sampleForm" class="event-box form-box">
+    <label>Imię: <input type="text" name="name"></label>
+    <button type="submit">Wyślij</button>
+  </form>
+
+  <!-- ====================== -->
+  <!-- ZDARZENIA OKNA -->
+  <!-- ====================== -->
+  <h2>🪟 Zdarzenia okna (window/document)</h2>
+  <p>Sprawdź konsolę przy przewijaniu, zmianie rozmiaru lub przeładowaniu strony.</p>
+
+  <script>
+    const log = document.getElementById("log");
+    const addLog = msg => {
+      const time = new Date().toLocaleTimeString();
+      log.innerHTML += `[${time}] ${msg}<br>`;
+      log.scrollTop = log.scrollHeight;
+    };
+
+    document.getElementById("clearLog").addEventListener("click", () => log.innerHTML = "");
+
+    // ====================================================
+    // 🐭 ZDARZENIA MYSZY
+    // ====================================================
+    const mouseBox = document.getElementById("mouseBox");
+
+    /*
+      Obiekt event dla zdarzeń myszy zawiera m.in.:
+      - event.type       → typ zdarzenia (np. "click", "mouseover")
+      - event.target     → element, na którym zdarzenie wystąpiło
+      - event.clientX/Y  → pozycja kursora względem okna
+      - event.button     → który przycisk myszy został kliknięty (0 = lewy, 2 = prawy)
+    
+    💡 Podsumowanie:
+
+      -  mouseover i mouseout bąbelkują (działają też dla elementów potomnych).
+      -  mouseenter i mouseleave nie bąbelkują — działają tylko na danym elemencie.
+      -  mousedown / mouseup reagują szybciej niż click.
+      -  wheel przydaje się do niestandardowego przewijania.
+      -  contextmenu można użyć do tworzenia własnych menu prawym przyciskiem.
+            
+      */
+
+    mouseBox.addEventListener("click", e => {
+      addLog(`🖱 click — ${e.type} na elemencie ${e.target.tagName}, pozycja: (${e.clientX}, ${e.clientY})`);
+    });
+
+    mouseBox.addEventListener("mouseover", e => {
+      addLog(`➡️ mouseover — kursor wszedł na element ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mouseout", e => {
+      addLog(`⬅️ mouseout — kursor opuścił element ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("dblclick", e => {
+      addLog(`🖱 dblclick — dwuklik na elemencie ${e.target.tagName}`);
+    });
+
+    mouseBox.addEventListener("mousedown", e => {
+      addLog(`⬇️ mousedown — wciśnięto przycisk myszy (${e.button})`);
+    });
+
+    mouseBox.addEventListener("mouseup", e => {
+      addLog(`⬆️ mouseup — zwolniono przycisk myszy (${e.button})`);
+    });
+
+    mouseBox.addEventListener("mousemove", e => {
+      addLog(`🧭 mousemove — (${e.clientX}, ${e.clientY})`);
+    });
+
+    mouseBox.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      addLog(`📋 contextmenu — kliknięto prawym przyciskiem`);
+    });
+
+    mouseBox.addEventListener("wheel", e => {
+      addLog(`🌀 wheel — deltaY: ${e.deltaY}`);
+    });
+
+    // ====================================================
+    // ⌨️ ZDARZENIA KLAWIATURY
+    // ====================================================
+    const input = document.getElementById("keyboardInput");
+
+    /*
+      Obiekt event dla zdarzeń klawiatury:
+      - event.key       → znak klawisza (np. "a", "Enter")
+      - event.code      → kod fizycznego klawisza (np. "KeyA", "Enter")
+      - event.altKey    → true, jeśli Alt był wciśnięty
+      - event.ctrlKey   → true, jeśli Ctrl był wciśnięty
+      - event.shiftKey  → true, jeśli Shift był wciśnięty
+    */
+
+    input.addEventListener("keydown", e => {
+      addLog(`🔽 keydown — ${e.key} (${e.code}), ctrl=${e.ctrlKey}, alt=${e.altKey}`);
+    });
+
+    input.addEventListener("keyup", e => {
+      addLog(`🔼 keyup — puszczono ${e.key}`);
+    });
+
+    // ====================================================
+    // 📋 ZDARZENIA FORMULARZY
+    // ====================================================
+    const form = document.getElementById("sampleForm");
+    const nameInput = form.querySelector("input[name='name']");
+
+    /*
+      Obiekt event dla formularzy:
+      - event.target → element (pole), które wywołało zdarzenie
+      - event.preventDefault() → blokuje domyślne zachowanie (np. wysyłkę formularza)
+    */
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      addLog(`📤 submit — wysyłka formularza z wartością: "${nameInput.value}"`);
+    });
+
+    nameInput.addEventListener("focus", e => addLog(`🎯 focus — ${e.target.name} aktywne`));
+    nameInput.addEventListener("blur", e => addLog(`🚫 blur — ${e.target.name} straciło fokus`));
+    nameInput.addEventListener("change", e => addLog(`🔄 change — nowa wartość: "${e.target.value}"`));
+
+    // ====================================================
+    // 🪟 ZDARZENIA OKNA
+    // ====================================================
+    /*
+      Obiekt event w kontekście okna:
+      - event.type → typ zdarzenia ("resize", "scroll", "load", itd.)
+      - event.target → dokument lub okno (window/document)
+    */
+
+    window.addEventListener("resize", e => {
+      addLog(`📐 resize — szerokość: ${window.innerWidth}, wysokość: ${window.innerHeight}`);
+    });
+
+    window.addEventListener("scroll", e => {
+      addLog(`🧭 scroll — przewinięcie Y: ${window.scrollY}px`);
+    });
+
+    window.addEventListener("load", () => console.log("✅ load — cała strona załadowana"));
+    document.addEventListener("DOMContentLoaded", () => console.log("📄 DOMContentLoaded — DOM gotowy"));
+  </script>
+</body>
+</html>

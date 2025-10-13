@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOM – Tworzenie i modyfikowanie elementów</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 40px;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #005f99;
+    }
+
+    code {
+      background: #f2f2f2;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .example {
+      background: #eef9ff;
+      border: 1px solid #cce5ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      background: #0078d7;
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+
+    .log {
+      background: #f7f7f7;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+
+    .highlight {
+      background-color: #e6ffe6;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 Tworzenie i modyfikowanie elementów DOM</h1>
+
+  <p>
+    W JavaScript można dynamicznie tworzyć, dodawać i usuwać elementy na stronie.
+    Dzięki temu strona może się zmieniać bez przeładowania.
+  </p>
+
+  <h2>🔹 Najważniejsze metody</h2>
+  <ul>
+    <li><code>document.createElement("tag")</code> – tworzy nowy element</li>
+    <li><code>document.createTextNode("tekst")</code> – tworzy węzeł tekstowy</li>
+    <li><code>element.appendChild(child)</code> – dodaje element jako ostatnie dziecko</li>
+    <li><code>element.prepend(child)</code> – dodaje element na początek</li>
+    <li><code>element.insertBefore(newEl, refEl)</code> – wstawia nowy element przed wskazanym</li>
+    <li><code>element.remove()</code> – usuwa element z DOM</li>
+    <li><code>parent.replaceChild(newEl, oldEl)</code> – zamienia element</li>
+  </ul>
+
+  <hr />
+
+  <div class="example">
+    <h3>🧩 Praktyczne przykłady</h3>
+
+    <div id="container">
+      <p id="p1">Pierwszy paragraf</p>
+      <p id="p2">Drugi paragraf</p>
+    </div>
+
+    <button id="btnCreate">createElement()</button>
+    <button id="btnPrepend">prepend()</button>
+    <button id="btnInsertBefore">insertBefore()</button>
+    <button id="btnReplace">replaceChild()</button>
+    <button id="btnRemove">remove()</button>
+
+    <div class="log" id="log"></div>
+  </div>
+
+  <script>
+    const container = document.getElementById("container");
+    const log = document.getElementById("log");
+
+    // 🔸 1. Tworzenie elementu i dodanie go na końcu
+    document.getElementById("btnCreate").addEventListener("click", () => {
+      const newParagraph = document.createElement("p"); // tworzymy <p>
+      newParagraph.textContent = "➡️ Nowy paragraf dodany przez createElement()";
+      container.appendChild(newParagraph);
+      log.textContent = "Użyto createElement() + appendChild()";
+    });
+
+    // 🔸 2. Dodanie elementu na początek
+    document.getElementById("btnPrepend").addEventListener("click", () => {
+      const newParagraph = document.createElement("p");
+      newParagraph.textContent = "🔝 Paragraf dodany na początek przez prepend()";
+      container.prepend(newParagraph);
+      log.textContent = "Użyto prepend() — dodano element na początek kontenera";
+    });
+
+    // 🔸 3. Wstawienie przed konkretny element
+    document.getElementById("btnInsertBefore").addEventListener("click", () => {
+      const newParagraph = document.createElement("p");
+      newParagraph.textContent = "📍 Wstawiony przed paragrafem 2";
+      const ref = document.getElementById("p2");
+      container.insertBefore(newParagraph, ref);
+      log.textContent = "Użyto insertBefore() — nowy element przed #p2";
+    });
+
+    // 🔸 4. Zamiana elementu
+    document.getElementById("btnReplace").addEventListener("click", () => {
+      const old = document.getElementById("p1");
+      const newEl = document.createElement("p");
+      newEl.innerHTML = "<b>♻️ Paragraf #p1 został zastąpiony nowym!</b>";
+      container.replaceChild(newEl, old);
+      log.textContent = "Użyto replaceChild() — podmieniono element #p1";
+    });
+
+    // 🔸 5. Usuwanie elementu
+    document.getElementById("btnRemove").addEventListener("click", () => {
+      const el = document.getElementById("p2");
+      if (el) {
+        el.remove();
+        log.textContent = "Użyto remove() — usunięto element #p2";
+      } else {
+        log.textContent = "⚠️ Element #p2 już został usunięty!";
+      }
+    });
+  </script>
+
+  <hr />
+
+  <h2>📖 Dodatkowe metody</h2>
+  <ul>
+    <li><code>element.cloneNode(true)</code> — kopiuje element (true = z dziećmi)</li>
+    <li><code>element.innerHTML = "tekst"</code> — ustawia zawartość HTML wewnątrz elementu</li>
+    <li><code>element.textContent = "tekst"</code> — ustawia zwykły tekst (bez HTML)</li>
+    <li><code>element.insertAdjacentHTML("beforeend", "&lt;p&gt;Nowy&lt;/p&gt;")</code> — wstawia kod HTML w konkretne miejsce</li>
+  </ul>
+
+  <h2>📊 Podsumowanie</h2>
+  <ul>
+    <li><b>createElement()</b> — tworzy nowy element</li>
+    <li><b>appendChild()</b>, <b>prepend()</b> — dodają element do DOM</li>
+    <li><b>insertBefore()</b> — wstawia w konkretnym miejscu</li>
+    <li><b>replaceChild()</b> — zamienia element</li>
+    <li><b>remove()</b> — usuwa element</li>
+  </ul>
+
+  <p>
+    Dzięki tym metodom możesz dynamicznie manipulować strukturą strony – dodawać, zamieniać lub usuwać elementy w reakcji na zdarzenia.
+  </p>
+</body>
+</html>

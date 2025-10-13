@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notatka: DOM w JavaScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      margin: 40px;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #005f99;
+    }
+
+    code {
+      background: #f2f2f2;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: #f7f7f7;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    .example {
+      background: #eef9ff;
+      border: 1px solid #cce5ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      background: #0078d7;
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+
+    .note {
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 Co to jest DOM (Document Object Model)</h1>
+  <p>
+    <b>DOM</b> to <i>obiektowa reprezentacja dokumentu HTML</i>, którą przeglądarka tworzy po wczytaniu strony.
+    Przedstawia strukturę strony w postaci <b>drzewa obiektów</b>, które JavaScript może odczytywać i modyfikować.
+  </p>
+
+  <h2>🧩 Przykład struktury DOM</h2>
+  <pre>
+    Document
+    └── html
+          ├── head
+          │    └── title
+          └── body
+              ├── h1
+              └── p
+  </pre>
+
+  <p>
+    Każdy element HTML (np. <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;img&gt;</code>) to <b>węzeł DOM (node)</b>.
+  </p>
+
+  <h2>⚙️ DOM a HTML</h2>
+  <p>
+    HTML to tekstowy dokument, a DOM to jego obiektowa wersja w pamięci przeglądarki.  
+    Dzięki temu JavaScript może dynamicznie zmieniać zawartość strony bez przeładowania.
+  </p>
+
+  <h2>🔹 Najczęstsze operacje na DOM</h2>
+  <ul>
+    <li><code>document.getElementById("id")</code> — pobiera element po ID</li>
+    <li><code>document.querySelector("selector")</code> — pobiera pierwszy pasujący element</li>
+    <li><code>element.textContent</code> — pobiera lub ustawia tekst</li>
+    <li><code>element.style.color = "red"</code> — zmienia styl elementu</li>
+    <li><code>document.createElement("p")</code> — tworzy nowy element</li>
+    <li><code>element.addEventListener("click", fn)</code> — dodaje obsługę zdarzenia</li>
+  </ul>
+
+  <h2>🧠 Przykład działania DOM w JS</h2>
+
+  <div class="example">
+    <h3 id="title">Kliknij przyciski poniżej 👇</h3>
+    <button id="changeText">Zmień tekst</button>
+    <button id="changeColor">Zmień kolor</button>
+    <button id="addElement">Dodaj nowy element</button>
+    <div id="output"></div>
+  </div>
+
+  <p class="note">
+    (Otwórz konsolę przeglądarki, aby zobaczyć dodatkowe komunikaty!)
+  </p>
+
+  <script>
+    // ============================================
+    // 📘 DOM — praktyczna demonstracja
+    // ============================================
+
+    const title = document.getElementById("title");
+    const output = document.getElementById("output");
+    const btnText = document.getElementById("changeText");
+    const btnColor = document.getElementById("changeColor");
+    const btnAdd = document.getElementById("addElement");
+
+    // 🔹 Zmiana tekstu elementu
+    btnText.addEventListener("click", () => {
+      title.textContent = "✨ Tekst został zmieniony przez JS!";
+      console.log("Zmieniono tekst w elemencie H3");
+    });
+
+    // 🔹 Zmiana koloru tekstu
+    btnColor.addEventListener("click", () => {
+      const colors = ["red", "green", "blue", "purple", "orange"];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      title.style.color = randomColor;
+      console.log(`Zmieniono kolor tytułu na: ${randomColor}`);
+    });
+
+    // 🔹 Dodanie nowego elementu do DOM
+    btnAdd.addEventListener("click", () => {
+      const newParagraph = document.createElement("p");
+      newParagraph.textContent = "➡️ To nowy akapit dodany dynamicznie!";
+      output.appendChild(newParagraph);
+      console.log("Dodano nowy element <p> do DOM");
+    });
+  </script>
+
+  <hr>
+  <h2>📊 Podsumowanie</h2>
+  <ul>
+    <li>DOM to <b>model obiektowy strony</b> — „żywa” reprezentacja HTML.</li>
+    <li>JavaScript używa DOM, aby <b>czytać i modyfikować</b> zawartość strony.</li>
+    <li>Można dynamicznie zmieniać tekst, style, strukturę i reagować na zdarzenia.</li>
+  </ul>
+
+  <p><b>W skrócie:</b> DOM to most łączący <code>HTML</code> i <code>JavaScript</code> 🧩</p>
+</body>
+</html>
