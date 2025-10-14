@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌀 Event Loop – Wizualizacja</title>
+  <style>
+    body {
+      font-family: Consolas, monospace;
+      background: #0d1117;
+      color: #e6edf3;
+      padding: 30px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    .log {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    button {
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #2ea043;
+    }
+    code {
+      color: #ffa657;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌀 Event Loop – jak działa?</h1>
+
+  <p>
+    JavaScript jest <strong>jednowątkowy</strong> – wykonuje jeden fragment kodu na raz.
+    Asynchroniczność (np. <code>setTimeout</code>, <code>fetch</code>, <code>Promise</code>)
+    działa dzięki <strong>Event Loop</strong>, który zarządza kolejkami zadań.
+  </p>
+
+  <p><strong>Kliknij przycisk, aby uruchomić demonstrację:</strong></p>
+  <button id="startDemo">Uruchom Event Loop Demo</button>
+
+  <div id="output" class="log"></div>
+
+  <script>
+    const logDiv = document.getElementById("output");
+
+    function log(msg) {
+      console.log(msg);
+      logDiv.innerHTML += msg + "\n";
+    }
+
+    document.getElementById("startDemo").addEventListener("click", () => {
+      logDiv.innerHTML = "";
+      log("=== 🧠 START DEMONSTRACJI EVENT LOOP ===");
+
+      log("1️⃣ Synchronous: Start programu");
+
+      setTimeout(() => {
+        log("⏰ setTimeout → dodane do Task Queue (makrozadanie)");
+      }, 0);
+
+      Promise.resolve()
+        .then(() => {
+          log("⚡ Promise (microtask) → wykonuje się PRZED setTimeout");
+        });
+
+      async function asyncExample() {
+        log("🚀 async/await – start funkcji");
+        await Promise.resolve();
+        log("🪄 async/await – po await (microtask)");
+      }
+
+      asyncExample();
+
+      fetch("https://api.chucknorris.io/jokes/random")
+        .then(response => response.json())
+        .then(() => {
+          log("🌐 Fetch zakończony (task queue po microtasks)");
+        });
+
+      log("2️⃣ Synchronous: Koniec programu");
+    });
+
+    /*
+      📘 WYJAŚNIENIE EVENT LOOP:
+
+      1️⃣ Kod synchroniczny (Call Stack) jest wykonywany najpierw.
+      2️⃣ Asynchroniczne operacje (np. setTimeout, fetch) są przekazywane do Web API.
+      3️⃣ Gdy są gotowe — callbacki trafiają do kolejek:
+          - Microtask Queue (Promise, async/await)
+          - Task Queue (setTimeout, fetch)
+      4️⃣ Event Loop działa w pętli:
+          - Jeśli Call Stack pusty → pobiera z Microtask Queue
+          - Jeśli Microtask Queue pusta → pobiera z Task Queue
+      5️⃣ Kolejność: Synchronous → Microtasks → Tasks
+    */
+
+    /*
+        🧠 Kolejność wykonywania:
+
+        1️⃣ Kod synchroniczny (zwykłe instrukcje)
+        ⬇️
+        2️⃣ Wszystkie mikrozadania (np. Promise.then, await)
+        ⬇️
+        3️⃣ Pierwsze makrozadanie (np. setTimeout, fetch)
+        ⬇️
+        4️⃣ Po każdym makrozadaniu — znowu mikro, potem makro, i tak w kółko.
+            
+    */
+  </script>
+</body>
+</html>
