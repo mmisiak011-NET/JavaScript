@@ -20,6 +20,7 @@
     🔹 1. var (stary sposób, unikać) od samego początku JS
 
         Scope: działa w całej funkcji, a nie w bloku { }.
+        Scope: działa globalnie jeżeli jest zdefiniowany poza finkcją
 
         Można redeklarować tę samą zmienną w tym samym zakresie. var a = 2; var a = 2 nie bedzie błedu 
 

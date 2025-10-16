@@ -5,7 +5,7 @@
 
 
 /*
-    🔹 VAR nie ma zasięgu blokowego ale ma zasięg funkcyjny temat z IIFE
+    🔹 VAR nie ma zasięgu blokowego ale ma zasięg funkcyjny/Globalny(jeżeli zdefinowany poza funkcją) temat z IIFE
     🔹 VAR ląduje zawsze do obiektu window niezaleznie od teg oczy zdefiniowany jest globalnie czy w klamrach.
     🔹 Let oraz Const nie ląduje do obiektu window
 */
